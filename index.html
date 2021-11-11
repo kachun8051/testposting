@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>The onclick Event</h1>
+
+<p>The onclick event is used to trigger a function when an element is clicked on.</p>
+
+<p>Click the button to trigger a function that will output "Hello World" in a p element with id="demo".</p>
+
+<button onclick="myFunction()">Click me</button>
+<button onclick="myPost()">Click me 2</button>
+
+<p id="demo"></p>
+
+<p id="displayArea"></p>
+
+<script>
+
+var xmlhttp = new XMLHttpRequest();   // new HttpRequest instance 
+
+
+function myFunction() {
+  document.getElementById("demo").innerHTML = "Hello World";
+}
+
+function myPost(){
+    
+    //var theUrl = "http://localhost/testposting/json-handler.php";
+    var theUrl = "./json-handler.php";
+    xmlhttp.open("POST", theUrl, true);
+    xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xmlhttp.onreadystatechange = updatePage;  // callback
+    let obj = {
+        email: "hello@user.com",
+        response: {
+            name: "Tester"
+        }
+    }
+    xmlhttp.send(JSON.stringify(obj));
+}
+
+function updatePage() {
+	if (xmlhttp.readyState==4) {
+		if (xmlhttp.status==200) {
+			var serverData = xmlhttp.responseText;
+            //alert(serverData);
+			var area = document.getElementById("displayArea");
+            area.innerHTML = serverData;
+        }
+    }
+}
+
+</script>
+
+</body>
+</html>
